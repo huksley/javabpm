@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+
+<main role="main" class="container">
+
+    <div class="starter-template">
+        <h1>Requests</h1>
+    </div>
+
+    <div id="mainComponent">
+        <div class="form" v-if="isEditMode || isAddMode">
+            <div v-if="isEditMode">
+                <h3>Edit</h3>
+            </div>
+            <div v-if="isAddMode">
+                <h3>Add</h3>
+            </div>
+            Customer:
+            <select id="customer" v-model="edit.customerId">
+                <option v-for="item in customers" selected="{{ edit.customerId == item.id }}" v-bind:value="item.id">{{ item.title }}</option>
+            </select>
+            <br/>
+            Start date:
+            <input type="date" id="startDate" v-model="edit.startDate">
+            <br/>
+            End date:
+            <input type="date" id="endDate" v-model="edit.endDate">
+            <br/>
+            Status:
+            <select id="status" v-model="edit.status">
+                <option v-for="item in statuses" selected="{{ edit.status == item.id }}" v-bind:value="item.id">{{ item.title }}</option>
+            </select>
+            <br/>
+            <input type="button" @click.prevent="addOrEdit()" value="Save"/>
+        </div>
+
+        <div v-if="isSelectMode">
+            <h3>Select</h3>
+            Customer: <select id="filterCustomer" v-model="selectByCustomerId" @change="findRequests">
+            <option v-for="item in customers" selected="{{ selectByCustomerId == item.id }}" v-bind:value="item.id">{{ item.title }}</option>
+            </select>
+
+            <table class="table table-striped">
+                <tr>
+                <th>Customer</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>Status</th>
+                <th>Buttons</th>
+                </tr>
+
+                <tr v-for="item in requests">
+                    <td>{{ item.customer }}</td>
+                    <td>{{ item.startDate }}</td>
+                    <td>{{ item.endDate }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>
+                        <input type="button" @click.prevent="editRequest(item)" value="Edit"/>
+                        <input type="button" @click.prevent="deleteRequest(item)" value="Delete"/>
+                    </td>
+                </tr>
+
+                <input type="button" @click.prevent="addForm()" value="Add new"/>
+                <input type="button" @click.prevent="deleteAllByCustomer" value="Delete customer"/>
+            </table>
+        </div>
+    </div>
+
+</main><!-- /.container -->
+
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.9/vue.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
